@@ -4,6 +4,9 @@ A production-grade internal tool for testing **264+ AI models** through [Vercel 
 
 Built with Next.js 16, AI SDK v6, and shadcn/ui. No external billing provider needed — the entire credit system runs in-memory with industry-standard patterns (hold/charge/void lifecycle, idempotency, overdraft protection).
 
+<img width="800" height="400" alt="image" src="https://github.com/user-attachments/assets/d8db5643-52d3-4d3b-bad7-16a4f50db8f6" />
+
+
 ## What It Does
 
 - **264+ models** from OpenAI, Anthropic, Google, Meta, Mistral, xAI, BFL, Recraft, and more — auto-discovered from the gateway
