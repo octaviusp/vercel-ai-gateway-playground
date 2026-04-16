@@ -25,6 +25,19 @@ type ImageRequest = {
   n?: number;
 };
 
+/**
+ * Map aspect ratio to pixel dimensions at ~1 MP.
+ * BFL FLUX models need explicit width/height (multiples of 16).
+ * The aspectRatio param alone doesn't control output for all providers.
+ */
+const ASPECT_DIMENSIONS: Record<string, { width: number; height: number }> = {
+  '1:1':  { width: 1024, height: 1024 },
+  '4:3':  { width: 1184, height: 880 },
+  '3:4':  { width: 880, height: 1184 },
+  '16:9': { width: 1360, height: 768 },
+  '9:16': { width: 768, height: 1360 },
+};
+
 export async function POST(req: NextRequest) {
   ensureSeeded();
 
@@ -92,12 +105,21 @@ export async function POST(req: NextRequest) {
 
   try {
     if (body.modelType === 'image') {
+      const aspect = body.aspectRatio ?? '1:1';
+      const dims = ASPECT_DIMENSIONS[aspect] ?? ASPECT_DIMENSIONS['1:1'];
+
       console.log(`${TAG}   Path: experimental_generateImage (pure image)`);
+      console.log(`${TAG}   Dimensions: ${dims.width}x${dims.height} (${aspect})`);
+
       const result = await generateImage({
         model: gateway.imageModel(body.model),
         prompt: body.prompt,
-        aspectRatio: body.aspectRatio ?? '1:1',
+        aspectRatio: aspect,
+        size: `${dims.width}x${dims.height}`,
         n: body.n ?? 1,
+        providerOptions: {
+          bfl: { width: dims.width, height: dims.height },
+        },
       });
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
