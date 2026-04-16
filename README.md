@@ -21,8 +21,8 @@ Built with Next.js 16, AI SDK v6, and shadcn/ui. No external billing provider ne
 
 ```bash
 # Clone
-git clone https://github.com/octaviusp/gatewayexperimenter.git
-cd gatewayexperimenter
+git clone https://github.com/octaviusp/vercel-ai-gateway-playground.git
+cd vercel-ai-gateway-playground
 
 # Install
 pnpm install
